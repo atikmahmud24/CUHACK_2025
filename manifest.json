@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Book Country Identifier (ISBN)",
+    "name": "Oh Canada! (ISBN)",
     "version": "1.0",
     "description": "Identifies the country of origin for a book on indigo.ca by scraping its ISBN and querying an AI API.",
     "permissions": ["activeTab", "scripting"],

@@ -33,4 +33,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         infoDiv.innerText = "Book Country of Origin: " + country;
         document.body.appendChild(infoDiv);
     }
+
+    if(request.action === "fetchGenre"){
+        const genre = request.genre;
+    }
 });
+  
