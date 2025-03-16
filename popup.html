@@ -1,15 +1,144 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Book Country Identifier</title>
-        <style>
-            body { font-family: Arial, sans-serif; padding: 10px; }
-            button { padding: 10px 20px; font-size: 16px; }
-        </style>
-    </head>
-    <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Country Identifier</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            padding: 15px;
+            width: 300px;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            transition: background 0.3s, color 0.3s;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center horizontally */
+            gap: 10px;
+            margin-bottom: 15px;
+            width: 100%; /* Ensure it spans the full width */
+        }
+        .header img {
+            width: 30px;
+            height: 30px;
+        }
+        .header h1 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+            transition: color 0.3s;
+        }
+        #result {
+            font-weight: bold;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            background: #fff;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            transition: background 0.3s, color 0.3s;
+        }
+        button {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #9d1515;
+        }
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+            transition: color 0.3s;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 20px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+        .slider:before {
+            content: "";
+            position: absolute;
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        input:checked + .slider {
+            background-color: #ff0000;
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #222;
+            color: #fff;
+        }
+        body.dark-mode #result {
+            background: #333;
+            color: #fff;
+        }
+        body.dark-mode .toggle-container {
+            color: #fff;
+        }
+        body.dark-mode .header h1 {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="icons/icon128.png" alt="Extension Icon">
         <h1>Book Country Identifier</h1>
-        <button id="checkCountry">Check Book Country</button>
-        <script src="popup.js"></script>
-    </body>
+    </div>
+    
+    <div id="result">Origin: Unknown</div>
+    
+    <button id="checkAlternatives">Show Canadian Alternatives</button>
+    
+    <div class="toggle-container">
+        <span>Dark Mode</span>
+        <label class="toggle-switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
 </html>
