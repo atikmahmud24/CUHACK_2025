@@ -5,6 +5,11 @@
     "description": "Identifies the country of origin for a book on indigo.ca by scraping its ISBN and querying an AI API.",
     "permissions": ["activeTab", "scripting"],
     "host_permissions": ["https://www.indigo.ca/*"],
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
     "action": {
         "default_popup": "popup.html",
         "default_icon": {
