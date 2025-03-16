@@ -16,13 +16,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) =>{
                     text: promptText
                   }]
                 }]
-              })              
+            })
         })          
         .then(response => response.json())
         .then(data =>{
             console.log('API response:', data);
-            const country = data?.candidates?.[0]?.content || "Unknown";
-            console.log("Full candidate object:", JSON.stringify(data.candidates[0], null, 2));
+            const country = data?.candidates?.[0]?.content?.parts?.[0]?.text.trim() || "Unknown";
+            chrome.tabs.sendMessage(sender.tab.id, { action: "displayCountry", country: country });
             chrome.tabs.sendMessage(sender.tab.id, { action: "displayCountry", country: country });
         })
         .catch(error =>{
@@ -31,4 +31,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) =>{
         });
     }
 });
-  
