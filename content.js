@@ -6,29 +6,50 @@ chrome.runtime.onMessage.addListener((request) => {
             bottom: 20px;
             right: 20px;
             background: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             z-index: 9999;
-            max-width: 300px;
+            max-width: 350px;
+            font-family: Arial, sans-serif;
         `;
 
-        if(request.error) {
+        if(request.error){
             infoDiv.innerHTML = `<div style="color: red;">Error: ${request.error}</div>`;
-        } else if(request.data) {
-            const { author, publisher } = request.data;
+        }
+        else if(request.data){
+            const d = request.data;
             infoDiv.innerHTML = `
-                <h3>Book Details</h3>
-                <p><strong>Author:</strong> ${author.full_name}</p>
-                <p><strong>Nationality:</strong> ${author.nationalities.map(n => n.flag + ' ' + n.country).join(', ')}</p>
-                <p><strong>Publisher:</strong> ${publisher.name}</p>
-                <p><strong>Location:</strong> ${publisher.countries.map(c => c.flag + ' ' + c.country).join(', ')}</p>
+                <h3 style="margin: 0 0 15px; color: #2b2b2b;">📖 ${d.title}</h3>
+                
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                        <span style="font-weight: bold; min-width: 80px;">Author:</span>
+                        <span>${d.author} ${d.author_nationality || ''}</span>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span style="font-weight: bold; min-width: 80px;">Publisher:</span>
+                        <span>${d.publisher} ${d.publisher_country || ''}</span>
+                    </div>
+                </div>
+
+                ${d.recommendations ? `
+                <div style="border-top: 1px solid #eee; padding-top: 15px;">
+                    <h4 style="margin: 0 0 12px; color: #2b2b2b;">Recommended Similar Books</h4>
+                    ${d.recommendations.map(book => `
+                        <div style="margin-bottom: 10px; padding: 10px; background: #f8f8f8; border-radius: 5px;">
+                            <div style="font-weight: 500;">${book.title}</div>
+                            <div style="color: #666; font-size: 0.9em;">
+                                ${book.author} · ${book.year || ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                ` : ''}
             `;
-        } else {
-            infoDiv.innerHTML = `<div style="color: red;">No data received</div>`;
         }
 
-        // Remove existing div if present
         const oldDiv = document.getElementById("book-info");
         if(oldDiv) oldDiv.remove();
         

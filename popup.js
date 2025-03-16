@@ -1,31 +1,3 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const darkModeToggle = document.getElementById("darkModeToggle");
-
-    if (darkModeToggle) {
-        // Check for saved mode in local storage
-        if (localStorage.getItem("darkMode") === "enabled") {
-            document.body.classList.add("dark-mode");
-            darkModeToggle.checked = true;
-        }
-
-        darkModeToggle.addEventListener("change", function () {
-            if (this.checked) {
-                document.body.classList.add("dark-mode");
-                localStorage.setItem("darkMode", "enabled");
-            } else {
-                document.body.classList.remove("dark-mode");
-                localStorage.setItem("darkMode", "disabled");
-            }
-        });
-    }
-});
-
-    document.getElementById("checkAlternatives").addEventListener("click", function() {
-        const searchQuery = "Canadian authors fiction books";
-        const googleSearchURL = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
-        window.open(googleSearchURL, "_blank");
-    });
-
 document.getElementById("checkCountry").addEventListener("click", () => {
     const button = document.getElementById("checkCountry");
     button.disabled = true;
