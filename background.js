@@ -1,4 +1,4 @@
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) =>{
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.action === "fetchCountry"){
         const isbn = request.isbn;
         console.log('Processing ISBN:', isbn);
@@ -23,22 +23,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) =>{
                 console.log('Base data from Google:', baseData);
 
                 const geminiPrompt = `Given this book information:
-                    - Author: ${baseData.author}
-                    - Publisher: ${baseData.publisher}
+    - Author: ${baseData.author}
+    - Publisher: ${baseData.publisher}
 
-                    Provide:
-                    1. Author's nationality with flag emoji (use Wikidata/Wikipedia)
-                    2. Publisher's headquarters country with flag emoji
-                    3. Three similar genre books that must be Canadian (title, author, year)
+Provide:
+1. Author's nationality with flag emoji (use Wikidata/Wikipedia)
+2. Publisher's headquarters country with flag emoji
+3. Three similar genre books that must be Canadian (title, author, year)
 
-                    Format as JSON:
-                    {
-                        "author_nationality": "Country 🇺🇳",
-                        "publisher_country": "Country 🇺🇳",
-                        "recommendations": [
-                            {"title": "...", "author": "...", "year": "..."}
-                        ]
-                    }`;
+Format as JSON:
+{
+    "author_nationality": "Country 🇺🇳",
+    "publisher_country": "Country 🇺🇳",
+    "recommendations": [
+        {"title": "...", "author": "...", "year": "..."}
+    ]
+}`;
 
                 return fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDbWNw_9Rbsg7RK9V_wa3RtFOhmnW9kLU0`, {
                     method: 'POST',
