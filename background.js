@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) =>{
         const isbn = request.isbn;
         const apiKey = "AIzaSyDbWNw_9Rbsg7RK9V_wa3RtFOhmnW9kLU0";
         const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-        const promptText = `Given this ISBN: "${isbn}", provide only the one-word country name of the book's origin.`;
+        const promptText = `Given this ISBN: "${isbn}", provide only the one-word country name of the book's author (where author lives) as well as one word of country of origin of location of publisher and give an emoji as well.`;
         
         fetch(endpoint,{
             method: "POST",
