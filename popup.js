@@ -1,3 +1,30 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const darkModeToggle = document.getElementById("darkModeToggle");
+ 
+ 
+    if (darkModeToggle) {
+        // Check for saved mode in local storage
+        if (localStorage.getItem("darkMode") === "enabled") {
+            document.body.classList.add("dark-mode");
+            darkModeToggle.checked = true;
+        }
+ 
+ 
+        darkModeToggle.addEventListener("change", function () {
+            if (this.checked) {
+                document.body.classList.add("dark-mode");
+                localStorage.setItem("darkMode", "enabled");
+            } else {
+                document.body.classList.remove("dark-mode");
+                localStorage.setItem("darkMode", "disabled");
+            }
+        });
+    }
+ });
+ 
+
+
+
 document.getElementById("checkCountry").addEventListener("click", () => {
     const button = document.getElementById("checkCountry");
     button.disabled = true;
@@ -7,7 +34,7 @@ document.getElementById("checkCountry").addEventListener("click", () => {
         if(!tabs || !tabs[0]){
             console.error("No active tab found.");
             button.disabled = false;
-            button.textContent = "Check Book Country";
+            button.textContent = "Is it Canadian?";
             return;
         }
         chrome.scripting.executeScript({
@@ -15,7 +42,7 @@ document.getElementById("checkCountry").addEventListener("click", () => {
             func: extractAndSendISBN
         }, () => {
             button.disabled = false;
-            button.textContent = "Check Book Country";
+            button.textContent = "Is it Canadian?";
         });
     });
 });
