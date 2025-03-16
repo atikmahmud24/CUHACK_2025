@@ -1,59 +1,49 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const darkModeToggle = document.getElementById("darkModeToggle");
+document.getElementById("checkCountry").addEventListener("click", () => {
+    const button = document.getElementById("checkCountry");
+    button.disabled = true;
+    button.textContent = "Checking...";
 
-    if (darkModeToggle) {
-        // Check for saved mode in local storage
-        if (localStorage.getItem("darkMode") === "enabled") {
-            document.body.classList.add("dark-mode");
-            darkModeToggle.checked = true;
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if(!tabs || !tabs[0]){
+            console.error("No active tab found.");
+            button.disabled = false;
+            button.textContent = "Check Book Country";
+            return;
         }
-
-        darkModeToggle.addEventListener("change", function () {
-            if (this.checked) {
-                document.body.classList.add("dark-mode");
-                localStorage.setItem("darkMode", "enabled");
-            } else {
-                document.body.classList.remove("dark-mode");
-                localStorage.setItem("darkMode", "disabled");
-            }
-        });
-    }
-
-    document.getElementById("checkAlternatives").addEventListener("click", function() {
-        const searchQuery = "Canadian authors fiction books";
-        const googleSearchURL = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
-        window.open(googleSearchURL, "_blank");
-    });
-
-    document.getElementById("checkCountry").addEventListener("click", () => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.scripting.executeScript({
-                target: { tabId: tabs[0].id },
-                function: extractAndSendISBN
-            });
+        chrome.scripting.executeScript({
+            target: { tabId: tabs[0].id },
+            func: extractAndSendISBN
+        }, () => {
+            button.disabled = false;
+            button.textContent = "Check Book Country";
         });
     });
-
-    function extractAndSendISBN() {
-        let isbnElement = document.getElementById("isbn") || document.querySelector(".isbn");
-        let isbn = null;
-    
-        if (isbnElement) {
-            isbn = isbnElement.textContent.trim();
-        } else {
-            const bodyText = document.body.innerText;
-            const isbnRegex = /ISBN(?:-13)?:?\s*([0-9\-]+)/i;
-            const match = bodyText.match(isbnRegex);
-            if (match && match[1]) {
-                isbn = match[1].replace(/-/g, "").trim();
-            }
-        }
-    
-        if (isbn) {
-            chrome.runtime.sendMessage({ action: "fetchCountry", isbn: isbn });
-        } else {
-            alert("ISBN not found on this page.");
-        }
-    }
-
 });
+
+function extractAndSendISBN(){
+    const isbnRegex = /ISBN(?:-13)?:?\s*([0-9-]+)/i;
+    let isbn = null;
+
+    const isbnElement = document.getElementById("isbn") || document.querySelector(".isbn");
+    if(isbnElement){
+        const elementText = isbnElement.textContent;
+        const match = elementText.match(isbnRegex);
+        if(match && match[1]){
+            isbn = match[1].replace(/-/g, '').trim();
+        }
+    }
+    
+    if (!isbn) {
+        const bodyText = document.body.innerText;
+        const match = bodyText.match(isbnRegex);
+        if (match && match[1]) {
+            isbn = match[1].replace(/-/g, '').trim();
+        }
+    }
+
+    if (isbn) {
+        chrome.runtime.sendMessage({ action: "fetchCountry", isbn: isbn });
+    } else {
+        alert("ISBN not found on this page.");
+    }
+}
