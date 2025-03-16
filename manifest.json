@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "Product Origin Finder",
+    "version": "1.0",
+    "description": "Identifies the country of origin for an Amazon product using an AI API.",
+    "permissions": ["activeTab", "scripting"],
+    "host_permissions": ["https://www.amazon.ca/*"],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+        }
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+        "matches": ["https://www.amazon.ca/*"],
+        "js": ["content.js"]
+        }
+    ]
+}  
