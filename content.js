@@ -12,6 +12,7 @@ chrome.runtime.onMessage.addListener((request) => {
             z-index: 9999;
             max-width: 350px;
             font-family: Arial, sans-serif;
+            opacity: 0.94;
         `;
 
         if(request.error){
@@ -50,6 +51,29 @@ chrome.runtime.onMessage.addListener((request) => {
             `;
         }
 
+        // Create close button
+        const closeButton = document.createElement("button");
+        closeButton.textContent = "X";
+        closeButton.style.cssText = `
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #888;
+        `;
+
+        // Add close functionality
+        closeButton.addEventListener('click', () => {
+            infoDiv.style.display = 'none'; // Hide the div when clicked
+        });
+
+        // Append the button to the infoDiv
+        infoDiv.appendChild(closeButton);
+
+        // Remove any existing infoDiv before appending the new one
         const oldDiv = document.getElementById("book-info");
         if(oldDiv) oldDiv.remove();
         
